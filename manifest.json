@@ -1,0 +1,86 @@
+{
+  "plugin": "alex-act-document-tools",
+  "version": "0.1.0",
+  "shape": "six-skill + one-prompt + four-shared-runtime-modules",
+  "status": "released",
+  "description": "Optional first-party document conversion bundle extracted from Alex ACT Core so document production does not consume baseline reasoning payload capacity.",
+  "provenance": {
+    "source_repository": "Alex_ACT_Core",
+    "source_commit": "47ef71ccab23b5e43a0170cb0449708c5f91629b",
+    "ported_on": "2026-08-03",
+    "policy_repository": "Alex_ACT_Steward"
+  },
+  "assets": {
+    "skills": [
+      {
+        "name": "docx-to-md",
+        "path": ".github/skills/docx-to-md/SKILL.md"
+      },
+      {
+        "name": "html-to-md",
+        "path": ".github/skills/html-to-md/SKILL.md"
+      },
+      {
+        "name": "md-to-eml",
+        "path": ".github/skills/md-to-eml/SKILL.md"
+      },
+      {
+        "name": "md-to-html",
+        "path": ".github/skills/md-to-html/SKILL.md"
+      },
+      {
+        "name": "md-to-txt",
+        "path": ".github/skills/md-to-txt/SKILL.md"
+      },
+      {
+        "name": "md-to-word",
+        "path": ".github/skills/md-to-word/SKILL.md"
+      }
+    ],
+    "prompts": [
+      {
+        "name": "convert",
+        "path": ".github/prompts/convert.prompt.md"
+      }
+    ],
+    "shared_runtime": [
+      {
+        "name": "data-uri.cjs",
+        "path": ".github/scripts/shared/data-uri.cjs"
+      },
+      {
+        "name": "markdown-preprocessor.cjs",
+        "path": ".github/scripts/shared/markdown-preprocessor.cjs"
+      },
+      {
+        "name": "mermaid-pipeline.cjs",
+        "path": ".github/scripts/shared/mermaid-pipeline.cjs"
+      },
+      {
+        "name": "tool-runner.cjs",
+        "path": ".github/scripts/shared/tool-runner.cjs"
+      }
+    ]
+  },
+  "runtime_prerequisites": {
+    "required": [
+      "Node.js 24+",
+      "Pandoc 2.19+"
+    ],
+    "optional": [
+      "Mermaid CLI for PNG diagram rendering",
+      "JSZip for Word OOXML post-processing",
+      "svgexport for SVG rasterization"
+    ]
+  },
+  "distribution": {
+    "mall_includes": [
+      {
+        "source": ".github/scripts/shared",
+        "target": "scripts/shared"
+      }
+    ],
+    "expected_payload_files": 22,
+    "status": "published"
+  }
+}
