@@ -2,6 +2,8 @@
 
 ![Alex ACT Document Tools](https://raw.githubusercontent.com/fabioc-aloha/Alex_ACT_Document_Tools/main/assets/banner.svg)
 
+[Core](https://github.com/fabioc-aloha/Alex_ACT_Core) · [Manager](https://github.com/fabioc-aloha/Alex_ACT_Manager) · [Illustrator](https://github.com/fabioc-aloha/Alex_ACT_Illustrator_Plugin) · [Document Tools](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools) · [Enterprise](https://github.com/fabioc-aloha/alex-act-enterprise)
+
 Alex ACT Document Tools keeps document conversion tested and optional instead of spending Core's permanent payload budget on infrequent format work. Six skills share one runtime for Markdown, Word, HTML, email, and plain text.
 
 ## Status
