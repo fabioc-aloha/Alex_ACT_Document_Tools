@@ -1,8 +1,8 @@
 # Alex ACT Document Tools
 
-Optional document conversion plugin for the Alex ACT constellation. It converts
-among Markdown, Word, HTML, RFC 5322 email, and plain text through six tested
-skills, one `/convert` workflow, and a shared Pandoc-based runtime.
+![Alex ACT Document Tools](https://raw.githubusercontent.com/fabioc-aloha/Alex_ACT_Document_Tools/main/assets/banner.svg)
+
+Alex ACT Document Tools keeps document conversion tested and optional instead of spending Core's permanent payload budget on infrequent format work. Six skills share one runtime for Markdown, Word, HTML, email, and plain text.
 
 ## Status
 
