@@ -23,8 +23,8 @@ Reload the host, then invoke `/alex-act-document-tools convert`.
 
 ## Why This Plugin Exists
 
-The published Core payload reached the observed Copilot CLI Windows ceiling of
-100 files. Document conversion is useful but optional executable capability,
+The published Core payload reached this constellation's own 100-file packaging
+convention. Document conversion is useful but optional executable capability,
 not baseline reasoning or lifecycle maintenance. Extracting it preserves the
 tested converters while returning 17 payload slots to Core. Approved Core
 source no longer declares these skill names or their shared runtime; Core keeps
@@ -79,13 +79,13 @@ Run the source contract and startup tests:
 npm test
 ```
 
-The 14-test suite verifies component inventory, the 100-file ceiling, phantom
-component prevention, all six startup paths, and real HTML-to-Markdown import
-plus Markdown-to-text export. Steward's integration suite also packages a
-temporary 22-file Mall payload and executes all six converters from that
-packaged location. Disposable cross-owner comparisons produced byte-identical
-output against the former Core implementations in both real-conversion
-directions.
+The 14-test suite verifies component inventory, the 100-file packaging
+convention, phantom component prevention, all six startup paths, and real
+HTML-to-Markdown import plus Markdown-to-text export. Steward's integration
+suite also packages a temporary 22-file Mall payload and executes all six
+converters from that packaged location. Disposable cross-owner comparisons
+produced byte-identical output against the former Core implementations in both
+real-conversion directions.
 
 ## Provenance
 

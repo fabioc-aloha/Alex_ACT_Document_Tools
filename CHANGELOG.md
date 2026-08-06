@@ -5,6 +5,15 @@ All notable changes to Alex ACT Document Tools will be documented in this file.
 The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Changed
+
+- README: the 100-file figure is now stated as this constellation's own
+  packaging convention rather than an observed Copilot CLI Windows ceiling, in
+  both the extraction rationale and the test-suite description. The extraction
+  argument stands on optional-capability grounds independently of the number.
+
 ## [1.0.0] - 2026-08-06
 
 ### Added
