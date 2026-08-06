@@ -1,6 +1,6 @@
 {
   "plugin": "alex-act-document-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "shape": "six-skill + one-prompt + four-shared-runtime-modules",
   "status": "released",
   "description": "Optional first-party document conversion bundle extracted from Alex ACT Core so document production does not consume baseline reasoning payload capacity.",

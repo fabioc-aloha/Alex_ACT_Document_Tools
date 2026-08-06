@@ -30,7 +30,7 @@ function readJson(relativePath) {
 test('plugin manifest exposes one document conversion bundle', () => {
   const plugin = readJson('plugin.json');
   assert.equal(plugin.name, 'alex-act-document-tools');
-  assert.equal(plugin.version, '1.0.0');
+  assert.equal(plugin.version, '1.0.1');
   assert.equal(plugin.skills, '.github/skills');
   assert.equal(plugin.commands, '.github/prompts');
 });
@@ -38,7 +38,7 @@ test('plugin manifest exposes one document conversion bundle', () => {
 test('source inventory and repository documentation are complete', () => {
   const manifest = readJson('manifest.json');
   assert.equal(manifest.plugin, 'alex-act-document-tools');
-  assert.equal(manifest.version, '1.0.0');
+  assert.equal(manifest.version, '1.0.1');
   assert.deepEqual(manifest.assets.skills.map((entry) => entry.name), skillNames);
   assert.deepEqual(manifest.assets.prompts.map((entry) => entry.name), ['convert']);
   assert.deepEqual(manifest.assets.shared_runtime.map((entry) => entry.name), sharedRuntime);

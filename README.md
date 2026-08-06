@@ -8,7 +8,7 @@ Alex ACT Document Tools keeps document conversion tested and optional instead of
 
 ## Status
 
-**Released as `v1.0.0`.** Source:
+**Released as `v1.0.1`.** Source:
 [`fabioc-aloha/Alex_ACT_Document_Tools`](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools).
 Install from the Alex ACT Mall as `alex-act-document-tools@alex-mall`.
 

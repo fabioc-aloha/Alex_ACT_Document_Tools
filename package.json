@@ -1,6 +1,6 @@
 {
   "name": "alex-act-document-tools",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Source and contract tests for the Alex ACT document conversion plugin.",
   "scripts": {
