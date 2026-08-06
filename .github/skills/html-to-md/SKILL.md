@@ -35,8 +35,9 @@ node .github/skills/html-to-md/scripts/html-to-md.cjs page.html page.md
 
 | Flag | Effect |
 |---|---|
-| `--download-images` | Fetch referenced images to a local `images/` folder |
-| `--wrap N` | Line wrap width (default: 80) |
+| `--extract-images` | Copy referenced local images to an `images/` folder; remote URLs remain unchanged |
+| `--no-extract-images` | Preserve original local and remote image references |
+| `--wrap N` | Line wrap width (default: 0, no wrapping) |
 
 ## Post-conversion
 
@@ -50,4 +51,4 @@ node .github/skills/html-to-md/scripts/html-to-md.cjs page.html page.md
 
 ## Would Revise If
 
-Revisit this skill by **2026-08-26** (90 days) or sooner if any of the following fires: pandoc upstream changes html-to-md behavior in a way that breaks the documented flag semantics; the `--download-images` flow fails on a real source the user runs through it; or `lint-clean-markdown` post-processing stops being the right finishing step (e.g., a stricter linter ships and the pipeline needs to chain to it instead).
+Revisit this skill by **2026-11-06** or sooner if Pandoc changes html-to-md flag semantics, local image extraction fails on a supported source, or remote image download becomes a required capability rather than an explicit non-feature.

@@ -12,6 +12,12 @@ lastReviewed: 2026-07-28
 
 Convert Markdown documents into self-contained HTML files with embedded CSS, base64 images, and Mermaid diagram rendering. Ready for quick-share distribution, offline viewing, print, or email attachment.
 
+> [!WARNING]
+> This converter rejects executable raw HTML such as `<script>`, event-handler
+> attributes, and `javascript:` URLs. Sanitize externally supplied Markdown
+> before conversion; do not weaken this boundary to make an untrusted document
+> render.
+
 ---
 
 ## When to Use
@@ -35,7 +41,7 @@ Convert Markdown documents into self-contained HTML files with embedded CSS, bas
 | **Bold/Italic** | ✅ | Standard emphasis |
 | **Links** | ✅ | Styled with underline on hover |
 | **Images** | ✅ | Base64 embedded or linked |
-| **Code blocks** | ✅ | Syntax highlighting, monospace font |
+| **Code blocks** | ✅ | Monospace styling |
 | **Inline code** | ✅ | Background highlight |
 | **Tables** | ✅ | Striped rows, header styling |
 | **Blockquotes** | ✅ | Left border, italic style |
@@ -131,7 +137,7 @@ node .github/skills/md-to-html/scripts/md-to-html.cjs report.md --debug
 | Pie | ✅ Full render | ✅ Table |
 | Journey | ✅ Full render | ⚠️ Limited |
 
-**PNG Mode** (`--mermaid-png`): Requires mermaid-cli (mmdc). Renders at scale 8, 2400px width for crisp output. Diagrams are embedded as base64 PNGs.
+**PNG Mode** (`--mermaid-png`): Requires mermaid-cli (`mmdc`). Renders at scale 3 and 1200px width. Diagrams are embedded as base64 PNGs.
 
 **Fallback Mode** (default): No external dependencies. Converts diagram syntax to an ASCII table representation suitable for text-only viewing.
 
@@ -141,11 +147,9 @@ node .github/skills/md-to-html/scripts/md-to-html.cjs report.md --debug
 
 HTML output includes `@media print` CSS rules:
 
-- Page breaks before H1 headings
-- No background colors (ink-friendly)
-- Link URLs shown after text
+- Full-width body with page padding removed
+- Text-colored links without underlines
 - Code blocks with borders instead of background
-- Proper margins for binding
 
 ---
 
@@ -191,7 +195,7 @@ Get-ChildItem docs/*.md | ForEach-Object {
 
 ## Muscle Script
 
-`.github/skills/md-to-html/scripts/md-to-html.cjs` (v1.0.0)
+`.github/skills/md-to-html/scripts/md-to-html.cjs`
 
 ---
 

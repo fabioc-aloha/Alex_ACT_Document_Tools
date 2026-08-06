@@ -199,7 +199,7 @@ For high-fidelity diagrams, pre-render to PNG and include as images.
 
 ## Muscle Script
 
-`.github/skills/md-to-eml/scripts/md-to-eml.cjs` (v1.0.0)
+`.github/skills/md-to-eml/scripts/md-to-eml.cjs`
 
 ---
 

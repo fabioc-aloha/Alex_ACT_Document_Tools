@@ -50,7 +50,7 @@ Markdown (.md)  →  md-to-word.cjs  →  Word (.docx)  →  Final PDF
 | **Numbered lists** | ✅ Full | Auto-numbered |
 | **Task lists** | ✅ Full | `- [ ]` / `- [x]` converted |
 | **Tables** | ✅ Full | Professional styling |
-| **Code blocks** | ✅ Full | Syntax highlighting preserved |
+| **Code blocks** | ✅ Full | Monospace styling preserved |
 | **Inline code** | ✅ Full | Monospace with background |
 | **Links** | ✅ Full | Blue underlined |
 | **Images** (PNG/JPG) | ✅ Full | Centered, auto-sized |
@@ -155,7 +155,7 @@ npm install jszip
 | `--reference-doc PATH` | — | Custom Word template (.dotx) |
 | `--images-dir DIR` | images | Directory for generated PNG files |
 | `--embed-images` | off | Embed local images as base64 |
-| `--strip-frontmatter` | off | Remove YAML frontmatter |
+| `--strip-frontmatter` | on | Remove YAML frontmatter |
 | `--no-format-tables` | off | Skip table styling (faster) |
 | `--keep-temp` | off | Keep temporary files for debugging |
 | `--watch` | off | Auto-rebuild on source change |

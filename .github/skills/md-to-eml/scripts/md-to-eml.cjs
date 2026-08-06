@@ -403,6 +403,14 @@ async function main() {
   const rawContent = fs.readFileSync(sourcePath, 'utf8');
   const { headers, body } = parseFrontmatter(rawContent);
 
+  if (!args.test) {
+    const missing = ['from', 'to', 'subject'].filter((field) => !headers[field]);
+    if (missing.length) {
+      console.error(`ERROR: Missing required email headers: ${missing.join(', ')}`);
+      process.exit(1);
+    }
+  }
+
   // Override recipients in test mode
   if (args.test) {
     const originalTo = headers.to || '(none)';

@@ -219,7 +219,7 @@ Get-ChildItem *.docx | ForEach-Object {
 
 ## Muscle Script
 
-`.github/skills/docx-to-md/scripts/docx-to-md.cjs` (v1.0.0)
+`.github/skills/docx-to-md/scripts/docx-to-md.cjs`
 
 ---
 

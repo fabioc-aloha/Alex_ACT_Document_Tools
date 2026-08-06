@@ -228,7 +228,7 @@ function validateSyntax(mmdContent) {
   const tmpOut = tmpFile.replace('.mmd', '.svg');
   try {
     fs.writeFileSync(tmpFile, mmdContent, 'utf8');
-    runTool('npx', ['mmdc', '-i', tmpFile, '-o', tmpOut, '-b', 'white'], {
+    runTool('mmdc', ['-i', tmpFile, '-o', tmpOut, '-b', 'white'], {
       stdio: ['pipe', 'pipe', 'pipe'],
       timeout: 30000
     });
@@ -277,7 +277,7 @@ function renderMermaid(mmdContent, outputPath, options = {}) {
       fs.mkdirSync(outDir, { recursive: true });
     }
 
-    runTool('npx', ['mmdc', '-i', tmpFile, '-o', outputPath, '-b', String(bg), '-s', String(safeScale), '-w', String(safeWidth)], {
+    runTool('mmdc', ['-i', tmpFile, '-o', outputPath, '-b', String(bg), '-s', String(safeScale), '-w', String(safeWidth)], {
       stdio: ['pipe', 'pipe', 'pipe'],
       timeout: 60000
     });
@@ -296,7 +296,7 @@ function convertSvgToPng(svgPath, pngPath, width = 800) {
   try {
     const safeWidth = Number(width);
     if (!Number.isFinite(safeWidth) || safeWidth <= 0) return false;
-    runTool('npx', ['svgexport', svgPath, pngPath, `${safeWidth}:`], {
+    runTool('svgexport', [svgPath, pngPath, `${safeWidth}:`], {
       stdio: ['pipe', 'pipe', 'pipe'],
       timeout: 30000
     });

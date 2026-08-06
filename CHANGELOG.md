@@ -7,6 +7,23 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### Fixed
+
+- Preserved content inside variable-length Markdown fences across every
+  preprocessing path.
+- Rejected executable raw HTML before standalone HTML generation and required
+  production email `from`, `to`, and `subject` headers.
+- Preserved custom reference-document footers and defaults, implemented Letter,
+  A4, and 6x9 section sizes with matching image bounds, and removed Word dry-run
+  filesystem side effects.
+- Removed implicit `npx` package acquisition from Mermaid and SVG rendering;
+  approved tools must already be installed.
+- Reconciled HTML import options, Document Tools fallback ownership, runtime
+  defaults, print claims, and script labels.
+- Removed the unused data-URI runtime, replaced obsolete Mall include/count
+  metadata with origin delivery, and added isolated delivered-shape tests plus
+  standalone CI.
+
 ### Changed
 
 - README: the 100-file figure is now stated as this constellation's own

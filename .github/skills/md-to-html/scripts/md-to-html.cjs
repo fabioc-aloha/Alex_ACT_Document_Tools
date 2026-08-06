@@ -52,11 +52,10 @@ const { runTool } = require(path.join(__dirname, '..', '..', '..', 'scripts', 's
 // ---------------------------------------------------------------------------
 // Shared module imports
 // ---------------------------------------------------------------------------
-let sharedPreprocessor, sharedMermaid, sharedDataUri;
+let sharedPreprocessor, sharedMermaid;
 try {
   sharedPreprocessor = require(path.join(__dirname, '..', '..', '..', 'scripts', 'shared', 'markdown-preprocessor.cjs'));
   sharedMermaid = require(path.join(__dirname, '..', '..', '..', 'scripts', 'shared', 'mermaid-pipeline.cjs'));
-  sharedDataUri = require(path.join(__dirname, '..', '..', '..', 'scripts', 'shared', 'data-uri.cjs'));
 } catch {
   console.error('WARN: shared modules not found -- some features will be limited');
 }
@@ -300,6 +299,21 @@ function convertMarkdownToHtml(sourcePath, outputPath, options = {}) {
   let generateToc = !!options.toc;
 
   let markdown = fs.readFileSync(sourcePath, 'utf8');
+  const unsafeTagOrHandler = /<(?:script|iframe|object|embed|svg|math|meta|base|link)\b|\bon[a-z]+\s*=|\bsrcdoc\s*=/i;
+  const htmlAttributes = markdown.matchAll(/\b(?:href|src|action|formaction|xlink:href|poster|background|data)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))/gi);
+  const unsafeUrl = [...htmlAttributes].some((match) => {
+    const value = match[1] ?? match[2] ?? match[3] ?? '';
+    const decoded = value
+      .replace(/&#x([0-9a-f]+);?/gi, (_, hex) => String.fromCodePoint(Number.parseInt(hex, 16)))
+      .replace(/&#([0-9]+);?/g, (_, decimal) => String.fromCodePoint(Number.parseInt(decimal, 10)))
+      .replace(/&(colon|tab|newline);/gi, (_, name) => ({ colon: ':', tab: '\t', newline: '\n' })[name.toLowerCase()])
+      .replace(/[\u0000-\u0020\u007f-\u009f]/g, '')
+      .toLowerCase();
+    return /^(?:javascript:|vbscript:|data:text\/html)/.test(decoded);
+  });
+  if (unsafeTagOrHandler.test(markdown) || unsafeUrl) {
+    throw new Error('Unsafe executable HTML found in Markdown; sanitize external content before conversion');
+  }
   const sourceDir = path.dirname(path.resolve(sourcePath));
 
   // Extract title from frontmatter or first H1

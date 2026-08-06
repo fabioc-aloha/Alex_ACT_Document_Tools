@@ -3,6 +3,28 @@
 **Audit date:** 2026-08-06
 **Scope:** converter correctness, security boundaries, plugin packaging, tests, and living documentation
 **Change boundary:** this report is the only project file added by the audit
+**Remediation update:** 2026-08-06; all reported source findings are resolved locally. Hosted CI evidence requires the next authorized push.
+
+## Remediation Status
+
+| Finding | Status | Evidence |
+| --- | --- | --- |
+| F-01 long Markdown fences | Resolved | Three-, four-, and nested-shorter fence regression passes across preprocessing APIs |
+| F-02 executable standalone HTML | Resolved | Unsafe executable elements are rejected before output; trust boundary documented |
+| F-03 reference footer/default loss | Resolved in source | Reference-doc mode preserves existing footer/default parts; policy regression passes |
+| F-04 inert page size | Resolved | Letter, A4, and 6x9 OOXML dimensions and image bounds are implemented |
+| F-05 placeholder production email | Resolved | Missing `from`, `to`, or `subject` exits nonzero before output |
+| F-06 implicit registry execution | Resolved | Render paths call preinstalled `mmdc`/`svgexport` directly; no `npx` remains |
+| F-07 nonexistent HTML import flag | Resolved | Local-only extraction contract documented; unknown flags fail |
+| F-08 former Core fallback | Resolved | Fallback resolves installed `alex-act-document-tools` root |
+| F-09 untested delivered payload | Resolved | Isolated origin-delivery copy executes all six startup paths |
+| F-10 dry-run mutation | Resolved | Directory inventory remains byte-for-byte unchanged |
+| F-11 unused data-URI module | Resolved | Import, module, and manifest entry removed |
+| Documentation drift | Resolved | Defaults, print CSS, Mermaid sizing, syntax styling, and version labels match runtime |
+
+The suite now passes 22/22 locally. A future binary branded-reference fixture
+would strengthen F-03 beyond the current source-policy regression, but no
+optional dependency was added solely for that fixture.
 
 ## Executive Summary
 

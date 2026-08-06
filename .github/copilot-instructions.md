@@ -9,7 +9,7 @@ ACT governance, plugin lifecycle management, or visual authoring.
 - `Alex_ACT_Steward` owns architecture, approval, and release coordination.
 - This repository owns six converter skills, `/convert`, and their shared
   runtime.
-- `Alex_ACT_Core` retains baseline reasoning and a temporary compatibility route
+- `Alex_ACT_Core` retains baseline reasoning and namespaced compatibility redirects
   until the converter extraction is released and verified.
 - `Alex_ACT_Manager` may install, update, or remove this plugin after its own
   implementation is approved.

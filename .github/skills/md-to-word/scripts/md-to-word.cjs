@@ -93,13 +93,22 @@ const { findMermaidBlocks, analyzeMermaid, injectPalette } = require(path.join(_
 // ---------------------------------------------------------------------------
 // Page Layout Constants (Letter: 8.5"  11", 1" margins)
 // ---------------------------------------------------------------------------
-const PAGE_WIDTH_INCHES = 6.5;
-const PAGE_HEIGHT_INCHES = 9.0;
+const PAGE_SIZES = {
+  letter: { width: 12240, height: 15840, printableWidth: 6.5, printableHeight: 9.0 },
+  a4: { width: 11906, height: 16838, printableWidth: 6.27, printableHeight: 9.69 },
+  '6x9': { width: 8640, height: 12960, printableWidth: 4.0, printableHeight: 7.0 },
+};
 const MAX_IMAGE_WIDTH_RATIO = 0.90;  // 90% of printable width
 const MAX_IMAGE_HEIGHT_RATIO = 0.60; // 60% of printable height
-const MAX_IMAGE_WIDTH = PAGE_WIDTH_INCHES * MAX_IMAGE_WIDTH_RATIO;   // 5.85"
-const MAX_IMAGE_HEIGHT = PAGE_HEIGHT_INCHES * MAX_IMAGE_HEIGHT_RATIO; // 5.4"
+let MAX_IMAGE_WIDTH = PAGE_SIZES.letter.printableWidth * MAX_IMAGE_WIDTH_RATIO;
+let MAX_IMAGE_HEIGHT = PAGE_SIZES.letter.printableHeight * MAX_IMAGE_HEIGHT_RATIO;
 const PNG_DPI = 96;
+
+function configurePageSize(pageSize) {
+  const size = PAGE_SIZES[pageSize] || PAGE_SIZES.letter;
+  MAX_IMAGE_WIDTH = size.printableWidth * MAX_IMAGE_WIDTH_RATIO;
+  MAX_IMAGE_HEIGHT = size.printableHeight * MAX_IMAGE_HEIGHT_RATIO;
+}
 
 // ---------------------------------------------------------------------------
 // Built-in Lua filter for centering images in docx output
@@ -188,7 +197,7 @@ function convertMermaidToPng(mmdContent, outputPath) {
     // High-res render: 4x scale, 4800px viewport (was 8x/2400px).
     // Wider viewport prevents clipping on wide architecture diagrams;
     // 4 × 4800 = 19200px effective output — same fidelity, more horizontal room.
-    runTool('npx', ['mmdc', '-i', tmpFile, '-o', outputPath, '-b', 'white', '-s', '4', '-w', '4800', '-H', '2400'], {
+    runTool('mmdc', ['-i', tmpFile, '-o', outputPath, '-b', 'white', '-s', '4', '-w', '4800', '-H', '2400'], {
       stdio: ['pipe', 'pipe', 'pipe'],
       timeout: 120000
     });
@@ -202,7 +211,7 @@ function convertMermaidToPng(mmdContent, outputPath) {
 
 function convertSvgToPng(svgPath, pngPath) {
   try {
-    runTool('npx', ['svgexport', svgPath, pngPath, '800:'], {
+    runTool('svgexport', [svgPath, pngPath, '800:'], {
       stdio: ['pipe', 'pipe', 'pipe'],
       timeout: 30000
     });
@@ -743,6 +752,15 @@ function addFooterRefToSectionProps(docXml, footerRId) {
   return docXml;
 }
 
+function applyPageSize(docXml, pageSize) {
+  const size = PAGE_SIZES[pageSize] || PAGE_SIZES.letter;
+  const pageSizeXml = `<w:pgSz w:w="${size.width}" w:h="${size.height}"/>`;
+  if (/<w:pgSz\b[^>]*\/>/.test(docXml)) {
+    return docXml.replace(/<w:pgSz\b[^>]*\/>/, pageSizeXml);
+  }
+  return docXml.replace(/<w:sectPr([^>]*)>/, `<w:sectPr$1>${pageSizeXml}`);
+}
+
 // ---------------------------------------------------------------------------
 // DOCX Post-Processing via JSZip
 // ---------------------------------------------------------------------------
@@ -763,18 +781,19 @@ async function postProcessDocx(docxPath, options) {
 
   let docXml = await docXmlFile.async('string');
   docXml = applyAllFormatting(docXml, options);
+  docXml = applyPageSize(docXml, options.pageSize);
 
   // Add page number footer
-  const footerRId = await addPageNumberFooter(zip);
-  if (footerRId) {
-    docXml = addFooterRefToSectionProps(docXml, footerRId);
+  if (!options.preserveReference) {
+    const footerRId = await addPageNumberFooter(zip);
+    if (footerRId) docXml = addFooterRefToSectionProps(docXml, footerRId);
   }
 
   zip.file('word/document.xml', docXml);
 
   // Apply document defaults (font, line spacing) to styles.xml
   const stylesFile = zip.file('word/styles.xml');
-  if (stylesFile) {
+  if (stylesFile && !options.preserveReference) {
     let stylesXml = await stylesFile.async('string');
     stylesXml = setDocumentDefaults(stylesXml, options.style || 'professional');
     zip.file('word/styles.xml', stylesXml);
@@ -931,10 +950,7 @@ async function build(args) {
   const outputPath = path.resolve(args.output);
   const sourceDir = path.dirname(sourcePath);
   const imagesDir = path.join(sourceDir, args.imagesDir);
-
-  if (!fs.existsSync(imagesDir)) {
-    fs.mkdirSync(imagesDir, { recursive: true });
-  }
+  configurePageSize(args.pageSize);
 
   // Use os.tmpdir for temp files (proper cleanup)
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'md-to-word-'));
@@ -1008,6 +1024,8 @@ async function build(args) {
       console.log(`   Output would be: ${outputPath}`);
       return;
     }
+
+    if (!fs.existsSync(imagesDir)) fs.mkdirSync(imagesDir, { recursive: true });
 
     // Phase 0.5: Generate cover page from H1 + metadata
     if (args.cover) {
@@ -1234,7 +1252,8 @@ async function build(args) {
     await postProcessDocx(outputPath, {
       noFormatTables: args.noFormatTables,
       pageSize: args.pageSize,
-      style: args.style
+      style: args.style,
+      preserveReference: Boolean(args.referenceDoc),
     });
 
     // Phase 6: Output validation

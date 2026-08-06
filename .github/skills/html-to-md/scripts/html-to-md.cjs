@@ -59,6 +59,10 @@ function parseArgs(argv) {
     else if (args[i] === '--wrap' && i + 1 < args.length) result.wrap = parseInt(args[++i], 10);
     else if (args[i] === '--gfm') result.gfm = true;
     else if (args[i] === '--atx-headers') result.atxHeaders = true;
+    else if (args[i].startsWith('--')) {
+      console.error(`ERROR: Unknown option: ${args[i]}`);
+      process.exit(1);
+    }
     else if (!args[i].startsWith('--')) positional.push(args[i]);
   }
   if (positional.length === 0) {

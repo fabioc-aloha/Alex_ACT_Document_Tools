@@ -89,21 +89,30 @@ function extractFrontmatter(content) {
  * @param {(line: string) => string} transformer
  * @returns {string}
  */
+function nextFenceState(line, state) {
+  if (!state) {
+    const opener = line.match(/^\s{0,3}(`{3,}|~{3,})/);
+    return opener ? { character: opener[1][0], length: opener[1].length } : null;
+  }
+  const closer = line.match(/^\s{0,3}(`{3,}|~{3,})\s*$/);
+  if (closer && closer[1][0] === state.character && closer[1].length >= state.length) {
+    return null;
+  }
+  return state;
+}
+
 function applyOutsideFences(content, transformer) {
   const lines = content.split('\n');
-  let inFence = false;
-  let fenceMarker = null;
+  let fenceState = null;
   const out = [];
   for (const line of lines) {
-    const fenceMatch = line.match(/^\s*(`{3,}|~{3,})/);
-    if (fenceMatch) {
-      const marker = fenceMatch[1];
-      if (!inFence) { inFence = true; fenceMarker = marker[0].repeat(3); }
-      else if (line.trim().startsWith(fenceMarker)) { inFence = false; fenceMarker = null; }
+    const nextState = nextFenceState(line, fenceState);
+    if (nextState !== fenceState) {
+      fenceState = nextState;
       out.push(line);
       continue;
     }
-    if (inFence) { out.push(line); continue; }
+    if (fenceState) { out.push(line); continue; }
     out.push(transformer(line));
   }
   return out.join('\n');
@@ -146,20 +155,17 @@ function replaceEmDashes(content) {
  */
 function stripDecorativeRules(content) {
   const lines = content.split('\n');
-  let inFence = false;
-  let fenceMarker = null;
+  let fenceState = null;
   const out = [];
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const fenceMatch = line.match(/^\s*(`{3,}|~{3,})/);
-    if (fenceMatch) {
-      const marker = fenceMatch[1];
-      if (!inFence) { inFence = true; fenceMarker = marker[0].repeat(3); }
-      else if (line.trim().startsWith(fenceMarker)) { inFence = false; fenceMarker = null; }
+    const nextState = nextFenceState(line, fenceState);
+    if (nextState !== fenceState) {
+      fenceState = nextState;
       out.push(line);
       continue;
     }
-    if (inFence) { out.push(line); continue; }
+    if (fenceState) { out.push(line); continue; }
 
     const isHr = /^\s*(?:-{3,}|\*{3,}|_{3,})\s*$/.test(line);
     if (!isHr) { out.push(line); continue; }
@@ -199,20 +205,17 @@ function stripDecorativeRules(content) {
  */
 function detectTocMarker(content) {
   const lines = content.split('\n');
-  let inFence = false;
-  let fenceMarker = null;
+  let fenceState = null;
   let hasTocMarker = false;
   const out = [];
   for (const line of lines) {
-    const fenceMatch = line.match(/^\s*(`{3,}|~{3,})/);
-    if (fenceMatch) {
-      const marker = fenceMatch[1];
-      if (!inFence) { inFence = true; fenceMarker = marker[0].repeat(3); }
-      else if (line.trim().startsWith(fenceMarker)) { inFence = false; fenceMarker = null; }
+    const nextState = nextFenceState(line, fenceState);
+    if (nextState !== fenceState) {
+      fenceState = nextState;
       out.push(line);
       continue;
     }
-    if (inFence) { out.push(line); continue; }
+    if (fenceState) { out.push(line); continue; }
     if (/^\s*\[toc\]\s*$/i.test(line)) {
       hasTocMarker = true;
       continue; // strip the marker line
@@ -339,8 +342,7 @@ function transformOutsideCodeFences(content, transform) {
   const chunks = [];
   let prose = [];
   let fence = [];
-  let inFence = false;
-  let fenceMarker = null;
+  let fenceState = null;
 
   function flushProse() {
     if (prose.length > 0) {
@@ -356,30 +358,25 @@ function transformOutsideCodeFences(content, transform) {
   }
 
   for (const line of lines) {
-    const markerMatch = line.match(/^\s*(```+|~~~+)/);
-    if (markerMatch) {
-      const marker = markerMatch[1][0];
-      if (!inFence) {
+    const nextState = nextFenceState(line, fenceState);
+    if (nextState !== fenceState) {
+      if (!fenceState) {
         flushProse();
-        inFence = true;
-        fenceMarker = marker;
+        fenceState = nextState;
         fence.push(line);
-      } else if (marker === fenceMarker) {
-        fence.push(line);
-        inFence = false;
-        fenceMarker = null;
-        flushFence();
       } else {
         fence.push(line);
+        fenceState = nextState;
+        flushFence();
       }
       continue;
     }
 
-    if (inFence) fence.push(line);
+    if (fenceState) fence.push(line);
     else prose.push(line);
   }
 
-  if (inFence) flushFence();
+  if (fenceState) flushFence();
   else flushProse();
   return chunks.join('\n');
 }
@@ -587,14 +584,15 @@ function formatMarkdown(content, options = {}) {
 
   const buildFenceMap = (arr) => {
     const map = new Array(arr.length).fill(false);
-    let fence = false, marker = null;
+    let state = null;
     for (let i = 0; i < arr.length; i++) {
-      const m = arr[i].match(/^(\s{0,3})(`{3,}|~{3,})/);
-      if (m) {
-        if (!fence) { fence = true; marker = m[2][0]; map[i] = false; continue; }
-        if (m[2][0] === marker) { fence = false; marker = null; map[i] = false; continue; }
+      const nextState = nextFenceState(arr[i], state);
+      if (nextState !== state) {
+        state = nextState;
+        map[i] = false;
+        continue;
       }
-      map[i] = fence;
+      map[i] = Boolean(state);
     }
     return map;
   };

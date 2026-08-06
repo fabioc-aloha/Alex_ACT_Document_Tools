@@ -45,10 +45,6 @@
     ],
     "shared_runtime": [
       {
-        "name": "data-uri.cjs",
-        "path": ".github/scripts/shared/data-uri.cjs"
-      },
-      {
         "name": "markdown-preprocessor.cjs",
         "path": ".github/scripts/shared/markdown-preprocessor.cjs"
       },
@@ -74,13 +70,7 @@
     ]
   },
   "distribution": {
-    "mall_includes": [
-      {
-        "source": ".github/scripts/shared",
-        "target": "scripts/shared"
-      }
-    ],
-    "expected_payload_files": 22,
+    "payload_surface": "repository-at-release-tag",
     "status": "published"
   }
 }
