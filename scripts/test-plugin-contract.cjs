@@ -2,6 +2,7 @@
 
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
+const os = require('node:os');
 const path = require('node:path');
 const test = require('node:test');
 const { spawnSync } = require('node:child_process');
@@ -128,3 +129,48 @@ for (const name of skillNames) {
     assert.equal(result.status, 1, `expected no-argument usage exit 1, got ${result.status}`);
   });
 }
+
+test('html-to-md converts a real import fixture with semantic content intact', (t) => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'document-tools-import-'));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const source = path.join(directory, 'sample.html');
+  const output = path.join(directory, 'sample.md');
+  fs.writeFileSync(source,
+    '<!doctype html><html><body><h1>Parity Fixture</h1>'
+      + '<p>Alpha <strong>bold</strong>.</p><ul><li>One</li><li>Two</li></ul>'
+      + '</body></html>');
+
+  const script = path.join(
+    repoRoot, '.github', 'skills', 'html-to-md', 'scripts', 'html-to-md.cjs');
+  const result = spawnSync(process.execPath, [
+    script, source, output, '--wrap', '0', '--no-extract-images',
+  ], { cwd: repoRoot, encoding: 'utf8', timeout: 120000 });
+
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  const converted = fs.readFileSync(output, 'utf8');
+  assert.match(converted, /# Parity Fixture/);
+  assert.match(converted, /Alpha \*\*bold\*\*/);
+  assert.match(converted, /One/);
+  assert.match(converted, /Two/);
+});
+
+test('md-to-txt converts a real export fixture with semantic content intact', (t) => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'document-tools-export-'));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const source = path.join(directory, 'sample.md');
+  const output = path.join(directory, 'sample.txt');
+  fs.writeFileSync(source, '# Parity Fixture\n\nAlpha **bold**.\n\n- One\n- Two\n');
+
+  const script = path.join(
+    repoRoot, '.github', 'skills', 'md-to-txt', 'scripts', 'md-to-txt.cjs');
+  const result = spawnSync(process.execPath, [
+    script, source, output, '--wrap', '0',
+  ], { cwd: repoRoot, encoding: 'utf8', timeout: 120000 });
+
+  assert.equal(result.status, 0, `${result.stdout}\n${result.stderr}`);
+  const converted = fs.readFileSync(output, 'utf8');
+  assert.match(converted, /Parity Fixture/);
+  assert.match(converted, /Alpha bold\./);
+  assert.match(converted, /One/);
+  assert.match(converted, /Two/);
+});

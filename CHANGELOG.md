@@ -7,6 +7,17 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### Added
+
+- Added real HTML-to-Markdown import and Markdown-to-text export regression
+  fixtures with semantic-content assertions.
+
+### Changed
+
+- Became the sole source owner for the six document converter skill names and
+  their four shared runtime modules; Core retains a namespaced command redirect
+  only.
+
 ## [0.1.0] - 2026-08-03
 
 ### Added

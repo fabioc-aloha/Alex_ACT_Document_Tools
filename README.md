@@ -26,8 +26,10 @@ Reload the host, then invoke `/alex-act-document-tools convert`.
 The published Core payload reached the observed Copilot CLI Windows ceiling of
 100 files. Document conversion is useful but optional executable capability,
 not baseline reasoning or lifecycle maintenance. Extracting it preserves the
-tested converters while returning 17 payload slots to Core after the eventual
-coordinated migration.
+tested converters while returning 17 payload slots to Core. Approved Core
+source no longer declares these skill names or their shared runtime; Core keeps
+only a thin namespaced `/convert` redirect. Published Core 0.9.0 retains the old
+copies until its separately gated release and Mall refresh.
 
 | Component | Responsibility |
 | --- | --- |
@@ -77,11 +79,13 @@ Run the source contract and startup tests:
 npm test
 ```
 
-The test suite verifies component inventory, the 100-file ceiling, phantom
-component prevention, and that all six scripts reach usage without a missing
-module or pre-parser crash. Steward's integration suite also packages a
+The 14-test suite verifies component inventory, the 100-file ceiling, phantom
+component prevention, all six startup paths, and real HTML-to-Markdown import
+plus Markdown-to-text export. Steward's integration suite also packages a
 temporary 22-file Mall payload and executes all six converters from that
-packaged location.
+packaged location. Disposable cross-owner comparisons produced byte-identical
+output against the former Core implementations in both real-conversion
+directions.
 
 ## Provenance
 
@@ -101,11 +105,11 @@ publication proposal.
 `Alex_ACT_Steward` owns architecture, approval, release coordination, and
 cross-repository coherence. Changes to converter behavior require evidence,
 tests, and an approved Steward proposal. Core converter removal remains a
-separate compatibility release.
+separate compatibility release and installed-state transition.
 
 ## Would Revise If
 
-Revisit by **2026-11-03** or sooner if fewer than two real conversions use the
-plugin, the shared runtime proves inseparable from Core, the bundle duplicates
+Revisit by **2026-11-05** or sooner if real output loses semantic parity, a
+clean session resolves a converter skill to Core, the bundle duplicates
 maintained Mall converters without a retirement path, or runtime dependencies
-make installation materially less reliable than the current Core delivery.
+make installation materially less reliable than prior Core delivery.
