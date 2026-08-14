@@ -7,8 +7,8 @@ ACT governance, plugin lifecycle management, or visual authoring.
 ## Ownership
 
 - `Alex_ACT_Steward` owns architecture, approval, and release coordination.
-- This repository owns six converter skills, `/convert`, and their shared
-  runtime.
+- This repository owns seven converter/document-production skills, `/convert`,
+  `/rich-email`, and their shared runtime.
 - `Alex_ACT_Core` retains baseline reasoning and namespaced compatibility redirects
   until the converter extraction is released and verified.
 - `Alex_ACT_Manager` may install, update, or remove this plugin after its own
@@ -16,13 +16,14 @@ ACT governance, plugin lifecycle management, or visual authoring.
 
 ## Rules
 
-1. Keep converter scripts and their shared runtime together.
+1. Keep converter scripts, draft helpers, and their shared runtime together.
 2. Never add editorial README files under declared skill or command roots; the
    CLI can reify any Markdown file there as a phantom component.
 3. Run `npm test` after every converter or packaging change.
 4. Preserve explicit diagnostics for missing Pandoc or optional render tools.
-5. Do not add lifecycle, brain migration, chart authoring, or unrelated document
-   creation capabilities merely because they are adjacent.
+5. Keep rich-email draft handling separate from automated delivery, provider
+  execution, lifecycle, brain migration, chart authoring, and unrelated
+  document creation capabilities.
 6. Use American English in authored prose.
 7. Do not release, publish to the Mall, install, or mutate user scope without a
    separate approval.

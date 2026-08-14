@@ -1,9 +1,9 @@
 {
   "name": "alex-act-document-tools",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "private": true,
   "description": "Source and contract tests for the Alex ACT document conversion plugin.",
   "scripts": {
-    "test": "node --test scripts/test-plugin-contract.cjs"
+    "test": "node --test scripts/test-plugin-contract.cjs scripts/test-rich-email.cjs"
   }
 }

@@ -4,11 +4,13 @@
 
 [Core](https://github.com/fabioc-aloha/Alex_ACT_Core) · [Manager](https://github.com/fabioc-aloha/Alex_ACT_Manager) · [Illustrator](https://github.com/fabioc-aloha/Alex_ACT_Illustrator_Plugin) · [Document Tools](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools) · [Enterprise](https://github.com/fabioc-aloha/alex-act-enterprise)
 
-Alex ACT Document Tools keeps document conversion tested and optional instead of spending Core's permanent payload budget on infrequent format work. Six skills share one runtime for Markdown, Word, HTML, email, and plain text.
+Alex ACT Document Tools keeps document production tested and optional instead of spending Core's permanent payload budget on infrequent format work. Seven skills share one runtime for Markdown, Word, HTML, email, and plain text, with a separate draft-only New Outlook workflow.
 
 ## Status
 
-**Released as `v1.0.1`.** Source:
+**Latest published release: `v1.1.0`.** This MINOR release adds the approved
+draft-only rich-email workflow while preserving the six converter contracts.
+Source:
 [`fabioc-aloha/Alex_ACT_Document_Tools`](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools).
 Install from the Alex ACT Mall as `alex-act-document-tools@alex-mall`.
 
@@ -19,7 +21,8 @@ copilot plugin marketplace add fabioc-aloha/Alex_Skill_Mall
 copilot plugin install alex-act-document-tools@alex-mall
 ```
 
-Reload the host, then invoke `/alex-act-document-tools convert`.
+Reload the host, then invoke `/alex-act-document-tools convert` or
+`/alex-act-document-tools rich-email`.
 
 ## Why This Plugin Exists
 
@@ -27,9 +30,8 @@ The published Core payload reached this constellation's own 100-file packaging
 convention. Document conversion is useful but optional executable capability,
 not baseline reasoning or lifecycle maintenance. Extracting it preserves the
 tested converters while returning 17 payload slots to Core. Approved Core
-source no longer declares these skill names or their shared runtime; Core keeps
-only a thin namespaced `/convert` redirect. Published Core 0.9.0 retains the old
-copies until its separately gated release and Mall refresh.
+source no longer declares these skill names or their shared runtime; published
+Core 2.0.0 keeps only thin namespaced redirects.
 
 | Component | Responsibility |
 | --- | --- |
@@ -49,8 +51,11 @@ copies until its separately gated release and Mall refresh.
 | `md-to-html` | Markdown to standalone HTML with diagrams and embedded assets |
 | `md-to-txt` | Markdown to plain text |
 | `md-to-word` | Markdown to professional Word with diagrams and formatting |
+| `rich-email` | Compose and validate a draft-only New Outlook email from Markdown |
 
-The `/convert` prompt routes requests to the matching skill. Four modules under
+The `/convert` prompt routes conversion requests to the matching skill. The
+`/rich-email` prompt composes with `md-to-eml`, validates a single-part HTML EML,
+and opens an unsent New Outlook draft on Windows. Four modules under
 `.github/scripts/shared/` provide process execution, Markdown preprocessing,
 Mermaid handling, and data-URI support.
 
@@ -79,10 +84,11 @@ Run the source contract and startup tests:
 npm test
 ```
 
-The 14-test suite verifies component inventory, the 100-file packaging
-convention, phantom component prevention, all six startup paths, and real
+The source test suite verifies component inventory, the 100-file packaging
+convention, phantom component prevention, all seven converter paths, the
+draft-only Outlook helper, and real
 HTML-to-Markdown import plus Markdown-to-text export. Steward's integration
-suite also packages a temporary 22-file Mall payload and executes all six
+suite also packages a temporary origin-shaped payload and executes all seven
 converters from that packaged location. Disposable cross-owner comparisons
 produced byte-identical output against the former Core implementations in both
 real-conversion directions.
@@ -103,8 +109,8 @@ publication proposal.
 ## Governance
 
 `Alex_ACT_Steward` owns architecture, approval, release coordination, and
-cross-repository coherence. Changes to converter behavior require evidence,
-tests, and an approved Steward proposal. Core converter removal remains a
+cross-repository coherence. Changes to converter or draft behavior require
+evidence, tests, and an approved Steward proposal. Core converter removal remains a
 separate compatibility release and installed-state transition.
 
 ## Would Revise If

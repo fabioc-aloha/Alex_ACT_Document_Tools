@@ -1,7 +1,7 @@
 {
   "plugin": "alex-act-document-tools",
-  "version": "1.0.1",
-  "shape": "six-skill + one-prompt + four-shared-runtime-modules",
+  "version": "1.1.0",
+  "shape": "seven-skill + two-prompt + four-shared-runtime-modules",
   "status": "released",
   "description": "Optional first-party document conversion bundle extracted from Alex ACT Core so document production does not consume baseline reasoning payload capacity.",
   "provenance": {
@@ -35,12 +35,25 @@
       {
         "name": "md-to-word",
         "path": ".github/skills/md-to-word/SKILL.md"
+      },
+      {
+        "name": "rich-email",
+        "path": ".github/skills/rich-email/SKILL.md",
+        "bundled": [
+          ".github/skills/rich-email/assets/rich-email-template.md",
+          ".github/skills/rich-email/references/style-guide.md",
+          ".github/skills/rich-email/scripts/open-rich-outlook-draft.cjs"
+        ]
       }
     ],
     "prompts": [
       {
         "name": "convert",
         "path": ".github/prompts/convert.prompt.md"
+      },
+      {
+        "name": "rich-email",
+        "path": ".github/prompts/rich-email.prompt.md"
       }
     ],
     "shared_runtime": [
@@ -71,6 +84,7 @@
   },
   "distribution": {
     "payload_surface": "repository-at-release-tag",
-    "status": "published"
+    "status": "published",
+    "published_version": "1.1.0"
   }
 }

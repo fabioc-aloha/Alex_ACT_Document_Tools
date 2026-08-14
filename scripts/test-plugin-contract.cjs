@@ -17,6 +17,7 @@ const skillNames = [
   'md-to-txt',
   'md-to-word',
 ];
+const allSkillNames = [...skillNames, 'rich-email'];
 const sharedRuntime = [
   'markdown-preprocessor.cjs',
   'mermaid-pipeline.cjs',
@@ -30,7 +31,7 @@ function readJson(relativePath) {
 test('plugin manifest exposes one document conversion bundle', () => {
   const plugin = readJson('plugin.json');
   assert.equal(plugin.name, 'alex-act-document-tools');
-  assert.equal(plugin.version, '1.0.1');
+  assert.equal(plugin.version, '1.1.0');
   assert.equal(plugin.skills, '.github/skills');
   assert.equal(plugin.commands, '.github/prompts');
 });
@@ -38,9 +39,17 @@ test('plugin manifest exposes one document conversion bundle', () => {
 test('source inventory and repository documentation are complete', () => {
   const manifest = readJson('manifest.json');
   assert.equal(manifest.plugin, 'alex-act-document-tools');
-  assert.equal(manifest.version, '1.0.1');
-  assert.deepEqual(manifest.assets.skills.map((entry) => entry.name), skillNames);
-  assert.deepEqual(manifest.assets.prompts.map((entry) => entry.name), ['convert']);
+  assert.equal(manifest.version, '1.1.0');
+  assert.equal(readJson('package.json').version, '1.1.0');
+  assert.equal(manifest.status, 'released');
+  assert.equal(manifest.distribution.status, 'published');
+  assert.equal(manifest.distribution.published_version, '1.1.0');
+  assert.match(fs.readFileSync(path.join(repoRoot, 'CHANGELOG.md'), 'utf8'),
+    /## \[1\.1\.0\] - 2026-08-14/);
+  assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
+    /Latest published release: `v1\.1\.0`/);
+  assert.deepEqual(manifest.assets.skills.map((entry) => entry.name), allSkillNames);
+  assert.deepEqual(manifest.assets.prompts.map((entry) => entry.name), ['convert', 'rich-email']);
   assert.deepEqual(manifest.assets.shared_runtime.map((entry) => entry.name), sharedRuntime);
   assert.equal(manifest.distribution.payload_surface, 'repository-at-release-tag');
 
@@ -55,7 +64,7 @@ test('source inventory and repository documentation are complete', () => {
   }
 });
 
-test('all six converter skills and the shared runtime are present', () => {
+test('all seven document skills and the shared runtime are present', () => {
   for (const name of skillNames) {
     assert(fs.existsSync(path.join(repoRoot, '.github', 'skills', name, 'SKILL.md')),
       `missing ${name}/SKILL.md`);
@@ -68,6 +77,12 @@ test('all six converter skills and the shared runtime are present', () => {
   }
   assert(fs.existsSync(path.join(repoRoot, '.github', 'prompts', 'convert.prompt.md')),
     'missing /convert prompt');
+  assert(fs.existsSync(path.join(repoRoot, '.github', 'prompts', 'rich-email.prompt.md')),
+    'missing /rich-email prompt');
+  assert(fs.existsSync(path.join(repoRoot, '.github', 'skills', 'rich-email', 'SKILL.md')),
+    'missing rich-email skill');
+  assert(fs.existsSync(path.join(repoRoot, '.github', 'skills', 'rich-email', 'scripts', 'open-rich-outlook-draft.cjs')),
+    'missing rich-email Outlook helper');
 });
 
 test('component roots contain no editorial README files', () => {
@@ -148,8 +163,8 @@ test('html-to-md converts a real import fixture with semantic content intact', (
   const output = path.join(directory, 'sample.md');
   fs.writeFileSync(source,
     '<!doctype html><html><body><h1>Parity Fixture</h1>'
-      + '<p>Alpha <strong>bold</strong>.</p><ul><li>One</li><li>Two</li></ul>'
-      + '</body></html>');
+    + '<p>Alpha <strong>bold</strong>.</p><ul><li>One</li><li>Two</li></ul>'
+    + '</body></html>');
 
   const script = path.join(
     repoRoot, '.github', 'skills', 'html-to-md', 'scripts', 'html-to-md.cjs');

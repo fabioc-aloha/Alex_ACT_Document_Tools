@@ -7,6 +7,24 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-14
+
+### Added
+
+- Added `rich-email`, a draft-only Markdown-to-New-Outlook workflow that
+  composes with `md-to-eml`, validates single-part HTML EML, preserves original
+  headers, adds `X-Unsent: 1`, and inserts space for the user's default
+  signature.
+- Added `/alex-act-document-tools rich-email`, an email template, an email-safe
+  style guide, and focused helper tests for idempotency, recipient validation,
+  multipart rejection, and validation-only operation.
+
+### Security
+
+- Rich email never sends automatically, stores no credentials, rejects
+  multipart output before writing a draft, and requires review of recipients,
+  subject, requested action, and body before opening New Outlook.
+
 ## [1.0.1] - 2026-08-06
 
 ### Fixed
