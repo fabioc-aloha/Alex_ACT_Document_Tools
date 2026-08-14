@@ -62,6 +62,9 @@ test('source inventory and repository documentation are complete', () => {
   ]) {
     assert(fs.existsSync(path.join(repoRoot, relativePath)), `missing ${relativePath}`);
   }
+
+  const workflow = fs.readFileSync(path.join(repoRoot, '.github/workflows/test.yml'), 'utf8');
+  assert.match(workflow, /apt-get install --yes pandoc/);
 });
 
 test('all seven document skills and the shared runtime are present', () => {
