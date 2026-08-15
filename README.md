@@ -2,7 +2,7 @@
 
 ![Alex ACT Document Tools](https://raw.githubusercontent.com/fabioc-aloha/Alex_ACT_Document_Tools/main/assets/banner.svg)
 
-[Core](https://github.com/fabioc-aloha/Alex_ACT_Core) · [Manager](https://github.com/fabioc-aloha/Alex_ACT_Manager) · [Illustrator](https://github.com/fabioc-aloha/Alex_ACT_Illustrator_Plugin) · [Document Tools](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools) · [Enterprise](https://github.com/fabioc-aloha/alex-act-enterprise)
+[Core](https://github.com/fabioc-aloha/Alex_ACT_Core) · [Illustrator](https://github.com/fabioc-aloha/Alex_ACT_Illustrator_Plugin) · [Document Tools](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools) · [Enterprise](https://github.com/fabioc-aloha/alex-act-enterprise)
 
 Alex ACT Document Tools keeps document production tested and optional instead of spending Core's permanent payload budget on infrequent format work. Seven skills share one runtime for Markdown, Word, HTML, email, and plain text, with a separate draft-only New Outlook workflow.
 
@@ -36,7 +36,7 @@ Core 2.0.0 keeps only thin namespaced redirects.
 | Component | Responsibility |
 | --- | --- |
 | Core | Runtime identity, ACT reasoning, safety, and frequent baseline skills |
-| Manager | Install, update, repair, and remove plugins |
+| Copilot CLI | Install, list, update, and remove plugins |
 | Document Tools | Convert documents and validate generated artifacts |
 | Illustrator | Author or verify visual assets embedded in documents |
 | Mall | Publish the approved plugin payload after release |

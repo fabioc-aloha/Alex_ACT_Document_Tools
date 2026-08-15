@@ -11,8 +11,7 @@ ACT governance, plugin lifecycle management, or visual authoring.
   `/rich-email`, and their shared runtime.
 - `Alex_ACT_Core` retains baseline reasoning and namespaced compatibility redirects
   until the converter extraction is released and verified.
-- `Alex_ACT_Manager` may install, update, or remove this plugin after its own
-  implementation is approved.
+- Native Copilot CLI commands install, list, update, and remove this plugin.
 
 ## Rules
 
