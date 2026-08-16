@@ -7,6 +7,17 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+## [1.1.1] - 2026-08-15
+
+### Fixed
+
+- Corrected the live README to name Core `v3.0.1` and the three maintained
+  shared runtime modules.
+- Added a disposable Markdown-to-Word-to-Markdown regression that protects
+  headings, emphasis, lists, and table content across the DOCX round trip.
+- Styled the Markdown preview code-block copy control for the light preview
+  theme.
+
 ## [1.1.0] - 2026-08-14
 
 ### Added

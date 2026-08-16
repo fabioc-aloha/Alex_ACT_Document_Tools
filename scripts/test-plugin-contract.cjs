@@ -31,7 +31,7 @@ function readJson(relativePath) {
 test('plugin manifest exposes one document conversion bundle', () => {
   const plugin = readJson('plugin.json');
   assert.equal(plugin.name, 'alex-act-document-tools');
-  assert.equal(plugin.version, '1.1.0');
+  assert.equal(plugin.version, '1.1.1');
   assert.equal(plugin.skills, '.github/skills');
   assert.equal(plugin.commands, '.github/prompts');
 });
@@ -39,15 +39,19 @@ test('plugin manifest exposes one document conversion bundle', () => {
 test('source inventory and repository documentation are complete', () => {
   const manifest = readJson('manifest.json');
   assert.equal(manifest.plugin, 'alex-act-document-tools');
-  assert.equal(manifest.version, '1.1.0');
-  assert.equal(readJson('package.json').version, '1.1.0');
+  assert.equal(manifest.version, '1.1.1');
+  assert.equal(readJson('package.json').version, '1.1.1');
   assert.equal(manifest.status, 'released');
   assert.equal(manifest.distribution.status, 'published');
-  assert.equal(manifest.distribution.published_version, '1.1.0');
+  assert.equal(manifest.distribution.published_version, '1.1.1');
   assert.match(fs.readFileSync(path.join(repoRoot, 'CHANGELOG.md'), 'utf8'),
-    /## \[1\.1\.0\] - 2026-08-14/);
+    /## \[1\.1\.1\] - 2026-08-15/);
   assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
-    /Latest published release: `v1\.1\.0`/);
+    /Latest published release: `v1\.1\.1`/);
+  assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
+    /Core 3\.0\.1 keeps only thin namespaced redirects/);
+  assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
+    /Three modules under\n`\.github\/scripts\/shared\/`/);
   assert.deepEqual(manifest.assets.skills.map((entry) => entry.name), allSkillNames);
   assert.deepEqual(manifest.assets.prompts.map((entry) => entry.name), ['convert', 'rich-email']);
   assert.deepEqual(manifest.assets.shared_runtime.map((entry) => entry.name), sharedRuntime);
@@ -202,6 +206,45 @@ test('md-to-txt converts a real export fixture with semantic content intact', (t
   assert.match(converted, /Alpha bold\./);
   assert.match(converted, /One/);
   assert.match(converted, /Two/);
+});
+
+test('md-to-word and docx-to-md preserve a document round trip', (t) => {
+  const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'document-tools-docx-roundtrip-'));
+  t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
+  const source = path.join(directory, 'source.md');
+  const document = path.join(directory, 'roundtrip.docx');
+  const output = path.join(directory, 'roundtrip.md');
+  fs.writeFileSync(source, [
+    '# Document Tools Round Trip',
+    '',
+    '## Evidence',
+    '',
+    'A paragraph with **bold evidence** and *italic context*.',
+    '',
+    '- first finding',
+    '- second finding',
+    '',
+    '| Signal | Result |',
+    '| --- | --- |',
+    '| Contracts | Pass |',
+  ].join('\n'));
+
+  const word = path.join(repoRoot, '.github', 'skills', 'md-to-word', 'scripts', 'md-to-word.cjs');
+  const importDocument = path.join(repoRoot, '.github', 'skills', 'docx-to-md', 'scripts', 'docx-to-md.cjs');
+  const wordResult = spawnSync(process.execPath, [word, source, document, '--no-cover'], {
+    cwd: repoRoot, encoding: 'utf8', timeout: 120000,
+  });
+  assert.equal(wordResult.status, 0, `${wordResult.stdout}\n${wordResult.stderr}`);
+  assert.equal(fs.existsSync(document), true);
+
+  const importResult = spawnSync(process.execPath, [importDocument, document, output], {
+    cwd: repoRoot, encoding: 'utf8', timeout: 120000,
+  });
+  assert.equal(importResult.status, 0, `${importResult.stdout}\n${importResult.stderr}`);
+  const converted = fs.readFileSync(output, 'utf8');
+  for (const text of ['Document Tools Round Trip', 'Evidence', 'bold evidence', 'first finding', 'Signal', 'Contracts']) {
+    assert.match(converted, new RegExp(text));
+  }
 });
 
 test('all preprocessing paths preserve shorter fences inside long fences', () => {

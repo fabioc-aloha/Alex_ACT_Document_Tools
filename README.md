@@ -8,8 +8,9 @@ Alex ACT Document Tools keeps document production tested and optional instead of
 
 ## Status
 
-**Latest published release: `v1.1.0`.** This MINOR release adds the approved
-draft-only rich-email workflow while preserving the six converter contracts.
+**Latest published release: `v1.1.1`.** This PATCH release corrects current
+runtime documentation and protects the DOCX round trip with a disposable
+regression.
 Source:
 [`fabioc-aloha/Alex_ACT_Document_Tools`](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools).
 Install from the Alex ACT Mall as `alex-act-document-tools@alex-mall`.
@@ -31,7 +32,7 @@ convention. Document conversion is useful but optional executable capability,
 not baseline reasoning or lifecycle maintenance. Extracting it preserves the
 tested converters while returning 17 payload slots to Core. Approved Core
 source no longer declares these skill names or their shared runtime; published
-Core 2.0.0 keeps only thin namespaced redirects.
+Core 3.0.1 keeps only thin namespaced redirects.
 
 | Component | Responsibility |
 | --- | --- |
@@ -55,9 +56,9 @@ Core 2.0.0 keeps only thin namespaced redirects.
 
 The `/convert` prompt routes conversion requests to the matching skill. The
 `/rich-email` prompt composes with `md-to-eml`, validates a single-part HTML EML,
-and opens an unsent New Outlook draft on Windows. Four modules under
+and opens an unsent New Outlook draft on Windows. Three modules under
 `.github/scripts/shared/` provide process execution, Markdown preprocessing,
-Mermaid handling, and data-URI support.
+and Mermaid handling.
 
 Mall packaging must include that directory explicitly as `scripts/shared`.
 Without the mapping, structural packaging passes while every converter loses
