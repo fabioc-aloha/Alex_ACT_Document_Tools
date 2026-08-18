@@ -7,6 +7,21 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### Added
+
+- Added a deterministic Agent Plugins package generator and its structural
+  tests. `packages/portable/` is a strict Agent Plugins 1.0 package carrying the
+  seven skills and shared runtime; `packages/copilot/` is the Copilot-format
+  package that also preserves the `convert` and `rich-email` commands. Both are
+  generated from the canonical source, so neither is a hand-maintained copy.
+  These packages are unreleased candidates under ADR-037 and are not published.
+
+### Changed
+
+- Moved `md-to-word` version history and the conversion acceptance table into a
+  bundled reference file so the skill body stays under the Agent Skills
+  500-line recommendation. Conversion behavior is unchanged.
+
 ## [1.1.1] - 2026-08-15
 
 ### Fixed

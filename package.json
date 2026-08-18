@@ -4,6 +4,6 @@
   "private": true,
   "description": "Source and contract tests for the Alex ACT document conversion plugin.",
   "scripts": {
-    "test": "node --test scripts/test-plugin-contract.cjs scripts/test-rich-email.cjs"
+    "test": "node --test scripts/test-plugin-contract.cjs scripts/test-rich-email.cjs scripts/test-agent-plugin-packages.cjs"
   }
 }

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "alex-act-document-tools-portable",
+  "version": "0.1.0",
+  "description": "Portable Agent Plugins package for the Alex ACT Document Tools conversion skills.",
+  "author": {
+    "name": "Fabio Correa",
+    "url": "https://github.com/fabioc-aloha"
+  },
+  "homepage": "https://github.com/fabioc-aloha/Alex_ACT_Document_Tools",
+  "repository": "https://github.com/fabioc-aloha/Alex_ACT_Document_Tools.git",
+  "license": "MIT",
+  "keywords": [
+    "document-conversion",
+    "markdown",
+    "docx",
+    "html",
+    "email",
+    "plain-text",
+    "pandoc",
+    "mermaid"
+  ]
+}

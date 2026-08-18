@@ -96,6 +96,27 @@ converters from that packaged location. Disposable cross-owner comparisons
 produced byte-identical output against the former Core implementations in both
 real-conversion directions.
 
+## Agent Plugins packages (unreleased candidate)
+
+`scripts/generate-agent-plugin-packages.cjs` builds two packages from the same
+canonical source:
+
+| Output | Shape |
+| --- | --- |
+| `packages/portable/` | Strict Agent Plugins 1.0: seven skills plus the shared runtime, no commands |
+| `packages/copilot/` | Copilot format: the same seven skills plus the `convert` and `rich-email` commands |
+
+Regenerate and verify them with:
+
+```powershell
+node scripts/generate-agent-plugin-packages.cjs
+npm test
+```
+
+Both are generated, never hand-edited. They are candidates under
+[ADR-037](https://github.com/fabioc-aloha/Alex_ACT_Core) and are not published;
+the released plugin remains the legacy Copilot layout under `.github/`.
+
 ## Provenance
 
 The converter scripts and shared runtime were ported byte-for-byte from

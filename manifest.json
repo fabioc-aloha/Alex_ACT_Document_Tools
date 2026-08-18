@@ -34,7 +34,10 @@
       },
       {
         "name": "md-to-word",
-        "path": ".github/skills/md-to-word/SKILL.md"
+        "path": ".github/skills/md-to-word/SKILL.md",
+        "bundled": [
+          ".github/skills/md-to-word/references/version-history-and-acceptance.md"
+        ]
       },
       {
         "name": "rich-email",
