@@ -14,6 +14,8 @@ regression.
 Source:
 [`fabioc-aloha/Alex_ACT_Document_Tools`](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools).
 Install from the Alex ACT Mall as `alex-act-document-tools@alex-mall`.
+For the complete constellation setup, use the shared
+[installation guide](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools/blob/main/INSTALL.md).
 
 ## Install
 
