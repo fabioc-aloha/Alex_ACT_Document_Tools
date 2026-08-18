@@ -6,7 +6,7 @@ plugins are independent optional capabilities selected according to the work.
 
 ## Published Versions
 
-Last verified: 2026-08-15.
+Last verified: 2026-08-18.
 
 | Component | Version | Distribution |
 | --- | --- | --- |
@@ -16,6 +16,15 @@ Last verified: 2026-08-15.
 | Enterprise | `1.1.0` | `alex-act-enterprise@alex-mall` |
 | MSFT | `1.1.4` | `fabioc_microsoft/alex-act-msft`, managed-source access required |
 
+## Supported Platforms
+
+Windows and macOS are both supported. Every `copilot` command in this guide is
+identical on both platforms; only the one-time CLI installation differs. Core
+resolves its user instruction directory from the current home directory, so it
+activates at `%USERPROFILE%\.copilot\instructions` on Windows and
+`~/.copilot/instructions` on macOS. Run the commands in PowerShell on Windows
+and in your default shell on macOS.
+
 ## Prerequisites
 
 - Copilot CLI `1.0.75` or newer.
@@ -24,6 +33,14 @@ Last verified: 2026-08-15.
 - A Microsoft enterprise-managed GitHub identity with access to private
   `fabioc_microsoft/alex-act-msft` when installing MSFT.
 - Microsoft corporate identity and network access when installing MSFT.
+
+Install the Copilot CLI with the route for your platform:
+
+| Platform | Command |
+| --- | --- |
+| Windows | `winget install --id GitHub.Copilot` |
+| macOS | `brew install --cask copilot-cli` |
+| Any platform with Node.js 22 or newer | `npm install -g @github/copilot` |
 
 Check the tools:
 
@@ -165,7 +182,7 @@ commands remain the fallback when a generic skill call is unavailable.
 
 | Symptom | Action |
 | --- | --- |
-| `os error 5` or `os error 32` during a plugin write | Close all VS Code windows and retry from a standalone terminal. |
+| `os error 5` or `os error 32` during a plugin write | Windows only: close all VS Code windows and retry from a standalone terminal. macOS does not lock loaded plugin files. |
 | A public plugin version is stale | Run `copilot plugin marketplace update alex-mall`, then retry the targeted install or update. |
 | Core skills exist but ACT instructions do not fire | Invoke `/alex-act-core bootstrap-core` and approve Core instruction activation. |
 | Workspace CSS differs from the bundled stylesheet | Preview `--refresh-css`, then use `--apply` only if replacement is intended. |
