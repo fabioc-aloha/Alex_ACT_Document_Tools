@@ -13,17 +13,22 @@ Last verified: 2026-08-18.
 | Core | `3.1.2` | `alex-act-core@alex-mall` |
 | Illustrator | `2.3.1` | `alex-act-illustrator-plugin@alex-mall` |
 | Document Tools | `1.1.1` | `alex-act-document-tools@alex-mall` |
+| AI Operations | `0.2.1` | `alex-act-ai-operations@alex-mall` |
 | Enterprise | `1.1.1` | `alex-act-enterprise@alex-mall` |
 | MSFT | `1.1.4` | `fabioc_microsoft/alex-act-msft`, managed-source access required |
 
 ## Supported Platforms
 
-Windows and macOS are both supported. Every `copilot` command in this guide is
-identical on both platforms; only the one-time CLI installation differs. Core
-resolves its user instruction directory from the current home directory, so it
-activates at `%USERPROFILE%\.copilot\instructions` on Windows and
-`~/.copilot/instructions` on macOS. Run the commands in PowerShell on Windows
-and in your default shell on macOS.
+Windows is the verified production platform. Core's Node.js runtime scripts are
+platform-neutral and resolve the user instruction directory from the current
+home directory, but the macOS and Linux installation paths have not completed
+their host canaries. Treat them as candidates rather than supported production
+platforms until that evidence exists.
+
+The same `copilot` commands are intended to activate at
+`%USERPROFILE%\.copilot\instructions` on Windows and
+`~/.copilot/instructions` on macOS or Linux. Use PowerShell on Windows and the
+platform's default shell elsewhere.
 
 ## Prerequisites
 
@@ -182,7 +187,7 @@ commands remain the fallback when a generic skill call is unavailable.
 
 | Symptom | Action |
 | --- | --- |
-| `os error 5` or `os error 32` during a plugin write | Windows only: close all VS Code windows and retry from a standalone terminal. macOS does not lock loaded plugin files. |
+| `os error 5` or `os error 32` during a plugin write | Windows: close all VS Code windows and retry from a standalone terminal. File-lock behavior on the macOS and Linux candidate paths remains unqualified. |
 | A public plugin version is stale | Run `copilot plugin marketplace update alex-mall`, then retry the targeted install or update. |
 | Core skills exist but ACT instructions do not fire | Invoke `/alex-act-core bootstrap-core` and approve Core instruction activation. |
 | Workspace CSS differs from the bundled stylesheet | Preview `--refresh-css`, then use `--apply` only if replacement is intended. |
