@@ -6,11 +6,11 @@ plugins are independent optional capabilities selected according to the work.
 
 ## Published Versions
 
-Last verified: 2026-08-18.
+Last verified: 2026-08-21.
 
 | Component | Version | Distribution |
 | --- | --- | --- |
-| Core | `3.1.2` | `alex-act-core@alex-mall` |
+| Core | `4.0.0` | `alex-act-core@alex-mall` |
 | Illustrator | `2.3.1` | `alex-act-illustrator-plugin@alex-mall` |
 | Document Tools | `1.1.1` | `alex-act-document-tools@alex-mall` |
 | AI Operations | `0.2.1` | `alex-act-ai-operations@alex-mall` |
