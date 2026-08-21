@@ -11,7 +11,7 @@ Last verified: 2026-08-21.
 | Component | Version | Distribution |
 | --- | --- | --- |
 | Core | `4.0.0` | `alex-act-core@alex-mall` |
-| Illustrator | `2.3.1` | `alex-act-illustrator-plugin@alex-mall` |
+| Illustrator | `2.4.0` | `alex-act-illustrator-plugin@alex-mall` |
 | Document Tools | `1.1.1` | `alex-act-document-tools@alex-mall` |
 | AI Operations | `0.2.1` | `alex-act-ai-operations@alex-mall` |
 | Enterprise | `1.1.1` | `alex-act-enterprise@alex-mall` |
