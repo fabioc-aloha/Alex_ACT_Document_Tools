@@ -7,6 +7,8 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+## [1.2.0] - 2026-08-25
+
 ### Added
 
 - Added a deterministic Agent Plugins package generator and its structural
@@ -21,6 +23,16 @@ and this project uses [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Moved `md-to-word` version history and the conversion acceptance table into a
   bundled reference file so the skill body stays under the Agent Skills
   500-line recommendation. Conversion behavior is unchanged.
+
+### Fixed
+
+- Made generated text comparison line-ending neutral while retaining
+  byte-strict checks for binary resources.
+- Classified Pandoc-dependent conversion canaries as explicit environmental
+  skips when Pandoc is absent, while preserving every independent package and
+  source contract check.
+- Made documentation assertions tolerate physical Markdown line wrapping while
+  continuing to require the same published meaning.
 
 ## [1.1.1] - 2026-08-15
 

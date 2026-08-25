@@ -8,9 +8,9 @@ Alex ACT Document Tools keeps document production tested and optional instead of
 
 ## Status
 
-**Latest published release: `v1.1.1`.** This PATCH release corrects current
-runtime documentation and protects the DOCX round trip with a disposable
-regression.
+**Latest published release: `v1.2.0`.** This MINOR release adds tested strict
+Agent Plugins and Copilot-compatible package lanes while preserving all seven
+skills, both commands, and the shared runtime from one canonical source.
 Source:
 [`fabioc-aloha/Alex_ACT_Document_Tools`](https://github.com/fabioc-aloha/Alex_ACT_Document_Tools).
 Install from the Alex ACT Mall as `alex-act-document-tools@alex-mall`.
@@ -96,7 +96,7 @@ converters from that packaged location. Disposable cross-owner comparisons
 produced byte-identical output against the former Core implementations in both
 real-conversion directions.
 
-## Agent Plugins packages (unreleased candidate)
+## Agent Plugins packages
 
 `scripts/generate-agent-plugin-packages.cjs` builds two packages from the same
 canonical source:
@@ -113,9 +113,11 @@ node scripts/generate-agent-plugin-packages.cjs
 npm test
 ```
 
-Both are generated, never hand-edited. They are candidates under
-[ADR-037](https://github.com/fabioc-aloha/Alex_ACT_Core) and are not published;
-the released plugin remains the legacy Copilot layout under `.github/`.
+Both are generated, never hand-edited. Both package lanes passed Copilot CLI,
+VS Code, and GitHub Copilot app discovery under ADR-037. The Copilot package is
+published as `alex-act-document-tools@alex-mall`; the strict package is
+published separately as `alex-act-document-tools-portable@alex-mall`. Install
+one package, not both, because they expose the same seven skill names.
 
 ## Provenance
 

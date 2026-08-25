@@ -38,7 +38,7 @@ function requirePandoc(t) {
 test('plugin manifest exposes one document conversion bundle', () => {
   const plugin = readJson('plugin.json');
   assert.equal(plugin.name, 'alex-act-document-tools');
-  assert.equal(plugin.version, '1.1.1');
+  assert.equal(plugin.version, '1.2.0');
   assert.equal(plugin.skills, '.github/skills');
   assert.equal(plugin.commands, '.github/prompts');
 });
@@ -46,15 +46,17 @@ test('plugin manifest exposes one document conversion bundle', () => {
 test('source inventory and repository documentation are complete', () => {
   const manifest = readJson('manifest.json');
   assert.equal(manifest.plugin, 'alex-act-document-tools');
-  assert.equal(manifest.version, '1.1.1');
-  assert.equal(readJson('package.json').version, '1.1.1');
+  assert.equal(manifest.version, '1.2.0');
+  assert.equal(readJson('package.json').version, '1.2.0');
   assert.equal(manifest.status, 'released');
   assert.equal(manifest.distribution.status, 'published');
-  assert.equal(manifest.distribution.published_version, '1.1.1');
+  assert.equal(manifest.distribution.published_version, '1.2.0');
   assert.match(fs.readFileSync(path.join(repoRoot, 'CHANGELOG.md'), 'utf8'),
-    /## \[1\.1\.1\] - 2026-08-15/);
+    /## \[1\.2\.0\] - 2026-08-25/);
   assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
-    /Latest published release: `v1\.1\.1`/);
+    /Latest published release: `v1\.2\.0`/);
+  assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
+    /Both package lanes passed Copilot CLI,\s+VS Code, and GitHub Copilot app discovery/);
   assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
     /Core 3\.0\.1 keeps only thin namespaced redirects/);
   assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
