@@ -23,6 +23,10 @@ function read(filePath) {
     return fs.readFileSync(filePath, 'utf8');
 }
 
+function normalizeLineEndings(content) {
+    return content.replace(/\r\n/g, '\n');
+}
+
 function stableJson(value) {
     return `${JSON.stringify(value, null, 2)}\n`;
 }
@@ -133,8 +137,10 @@ for (const [relativePath, content] of expected) {
         continue;
     }
     const actual = fs.readFileSync(destination);
-    const expectedBuffer = Buffer.isBuffer(content) ? content : Buffer.from(content, 'utf8');
-    if (!actual.equals(expectedBuffer)) drift.push(`Drifted ${relativePath}`);
+    const matches = Buffer.isBuffer(content)
+        ? actual.equals(content)
+        : normalizeLineEndings(actual.toString('utf8')) === normalizeLineEndings(content);
+    if (!matches) drift.push(`Drifted ${relativePath}`);
 }
 const actualFiles = listFiles(packagesRoot);
 const expectedFiles = [...expected.keys()].sort();

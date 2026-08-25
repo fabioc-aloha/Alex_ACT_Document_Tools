@@ -21,6 +21,18 @@ function sha256(filePath) {
     return crypto.createHash('sha256').update(fs.readFileSync(filePath)).digest('hex');
 }
 
+function normalizedSha256(filePath) {
+    const content = fs.readFileSync(filePath, 'utf8').replace(/\r\n/g, '\n');
+    return crypto.createHash('sha256').update(content).digest('hex');
+}
+
+function requirePandoc(t) {
+    const result = spawnSync('pandoc', ['--version'], { encoding: 'utf8' });
+    if (result.status === 0) return true;
+    t.skip('requires Pandoc 2.19+ on PATH');
+    return false;
+}
+
 test('generator is deterministic and drift-free against committed packages', () => {
     const checked = spawnSync(process.execPath, [generator, '--check'], { cwd: root, encoding: 'utf8' });
     assert.equal(checked.status, 0, checked.stderr);
@@ -79,7 +91,8 @@ test('both packages carry all seven skills with byte-identical bodies and stay i
     }
 });
 
-test('an isolated portable package resolves shared runtime and converts a real fixture', () => {
+test('an isolated portable package resolves shared runtime and converts a real fixture', (t) => {
+    if (!requirePandoc(t)) return;
     const target = fs.mkdtempSync(path.join(os.tmpdir(), 'doctools-portable-'));
     try {
         fs.cpSync(portableRoot, target, { recursive: true });
@@ -95,7 +108,8 @@ test('an isolated portable package resolves shared runtime and converts a real f
     }
 });
 
-test('an isolated copilot package resolves shared runtime identically to the portable package', () => {
+test('an isolated copilot package resolves shared runtime identically to the portable package', (t) => {
+    if (!requirePandoc(t)) return;
     const target = fs.mkdtempSync(path.join(os.tmpdir(), 'doctools-copilot-'));
     try {
         fs.cpSync(copilotRoot, target, { recursive: true });
@@ -114,10 +128,12 @@ test('an isolated copilot package resolves shared runtime identically to the por
 test('generator write mode reproduces byte-identical output on a second run', () => {
     const before = new Map();
     for (const packageRoot of [portableRoot, copilotRoot]) {
-        for (const relativeFile of walk(packageRoot)) before.set(relativeFile, sha256(relativeFile));
+        for (const relativeFile of walk(packageRoot)) before.set(relativeFile, normalizedSha256(relativeFile));
     }
     execFileSync(process.execPath, [generator, '--write'], { cwd: root, encoding: 'utf8' });
-    for (const [relativeFile, hash] of before) assert.equal(sha256(relativeFile), hash, relativeFile);
+    for (const [relativeFile, hash] of before) {
+        assert.equal(normalizedSha256(relativeFile), hash, relativeFile);
+    }
 });
 
 function walk(directory) {

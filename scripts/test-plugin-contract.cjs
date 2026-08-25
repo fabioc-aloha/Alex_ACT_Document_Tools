@@ -28,6 +28,13 @@ function readJson(relativePath) {
   return JSON.parse(fs.readFileSync(path.join(repoRoot, relativePath), 'utf8'));
 }
 
+function requirePandoc(t) {
+  const result = spawnSync('pandoc', ['--version'], { encoding: 'utf8' });
+  if (result.status === 0) return true;
+  t.skip('requires Pandoc 2.19+ on PATH');
+  return false;
+}
+
 test('plugin manifest exposes one document conversion bundle', () => {
   const plugin = readJson('plugin.json');
   assert.equal(plugin.name, 'alex-act-document-tools');
@@ -51,7 +58,7 @@ test('source inventory and repository documentation are complete', () => {
   assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
     /Core 3\.0\.1 keeps only thin namespaced redirects/);
   assert.match(fs.readFileSync(path.join(repoRoot, 'README.md'), 'utf8'),
-    /Three modules under\n`\.github\/scripts\/shared\/`/);
+    /Three modules under\s+`\.github\/scripts\/shared\/`/);
   assert.deepEqual(manifest.assets.skills.map((entry) => entry.name), allSkillNames);
   assert.deepEqual(manifest.assets.prompts.map((entry) => entry.name), ['convert', 'rich-email']);
   assert.deepEqual(manifest.assets.shared_runtime.map((entry) => entry.name), sharedRuntime);
@@ -164,6 +171,7 @@ for (const name of skillNames) {
 }
 
 test('html-to-md converts a real import fixture with semantic content intact', (t) => {
+  if (!requirePandoc(t)) return;
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'document-tools-import-'));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const source = path.join(directory, 'sample.html');
@@ -188,6 +196,7 @@ test('html-to-md converts a real import fixture with semantic content intact', (
 });
 
 test('md-to-txt converts a real export fixture with semantic content intact', (t) => {
+  if (!requirePandoc(t)) return;
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'document-tools-export-'));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const source = path.join(directory, 'sample.md');
@@ -209,6 +218,7 @@ test('md-to-txt converts a real export fixture with semantic content intact', (t
 });
 
 test('md-to-word and docx-to-md preserve a document round trip', (t) => {
+  if (!requirePandoc(t)) return;
   const directory = fs.mkdtempSync(path.join(os.tmpdir(), 'document-tools-docx-roundtrip-'));
   t.after(() => fs.rmSync(directory, { recursive: true, force: true }));
   const source = path.join(directory, 'source.md');
