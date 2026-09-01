@@ -127,7 +127,7 @@ Confirm each plane independently:
 | `enabled` | The exact plugin key is enabled at the intended scope. |
 | `instruction-loaded` | The Core receipt owns 16 files whose version and hashes match canonical Core sources. |
 | `skill-invokable` | The namespaced command runs, or reports `host-limited` with a healthy installed-file fallback. |
-| `project` | `/alex-act-core bootstrap-project` preserves local files and reports CSS parity. |
+| `project` | `/alex-act-core bootstrap-project` preserves local files and reports settings/scaffold status. |
 
 If plugin files are current but the instruction receipt or hashes drifted,
 invoke `/alex-act-core bootstrap-core` again and apply the reported repair.
@@ -144,8 +144,10 @@ Use the installed namespaced commands for the workloads you selected:
 /alex-act-msft setup-msft
 ```
 
-- Core's `bootstrap-project` previews project-scoped Markdown, settings,
-  repository guidance, and handoff files before asking to apply them.
+- Core's `bootstrap-project` previews project-scoped settings, repository
+  guidance, and handoff files before asking to apply them. Markdown Preview
+  uses VS Code user-level defaults; optional personal styling belongs in the
+  user profile, not project configuration.
 - Document Tools owns format detection, conversion execution, and output validation.
 - Illustrator companions are optional and individually consented.
 - Enterprise defaults its downstream Microsoft plugins to repository scope.
@@ -193,7 +195,7 @@ commands remain the fallback when a generic skill call is unavailable.
 | `os error 5` or `os error 32` during a plugin write | Windows: close all VS Code windows and retry from a standalone terminal. File-lock behavior on the macOS and Linux candidate paths remains unqualified. |
 | A public plugin version is stale | Run `copilot plugin marketplace update alex-mall`, then retry the targeted install or update. |
 | Core skills exist but ACT instructions do not fire | Invoke `/alex-act-core bootstrap-core` and approve Core instruction activation. |
-| Workspace CSS differs from the bundled stylesheet | Preview `--refresh-css`, then use `--apply` only if replacement is intended. |
+| Markdown Preview styling needs changing | Use VS Code's user-level settings; projects do not install or activate preview CSS. |
 | A generic skill call fails while the namespaced command exists | Use the namespaced command; report the generic bridge as `host-limited`, not missing. |
 | MSFT installs but internal tools fail | Confirm Microsoft corporate identity and network access, then run `/alex-act-msft setup-msft` in audit mode. |
 
@@ -203,6 +205,6 @@ commands remain the fallback when a generic skill call is unavailable.
 - [ ] Selected specialization plugins are installed and enabled.
 - [ ] The 16-file Core-owned instruction activation is verified or explicitly
   declined.
-- [ ] If project bootstrap is selected, the current workspace preserves its settings and reports CSS parity.
+- [ ] If project bootstrap is selected, the current workspace preserves its settings and scaffold status.
 - [ ] Repeated project work is kept local through a reviewed project skill or script; cross-platform work remains optional.
 - [ ] Optional workload configuration is limited to the projects that need it.
