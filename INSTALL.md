@@ -85,14 +85,14 @@ Reload your host, start a new Copilot Chat conversation, and invoke:
 /alex-act-core bootstrap-core
 ```
 
-Review the exact 16-file plan, machine-wide user scope, overlap report, and Core
+Review the exact 17-file plan, machine-wide user scope, overlap report, and Core
 receipt action. Apply only after explicit consent. Reload the host after the
 instruction files are written.
 
 Core's receipt is
 `<resolved-instructions>/.alex-act-core-bootstrap.json`. The preview reports
 that resolved directory: `$COPILOT_HOME/instructions` when `COPILOT_HOME` is
-set, otherwise `~/.copilot/instructions`. It owns only Core's 16 instruction
+set, otherwise `~/.copilot/instructions`. It owns only Core's 17 instruction
 files. A second preview must report only preserve actions.
 
 ## 4. Install Optional Specializations
@@ -125,7 +125,7 @@ Confirm each plane independently:
 | --- | --- |
 | `installed` | Plugin files and `plugin.json` report the published version. |
 | `enabled` | The exact plugin key is enabled at the intended scope. |
-| `instruction-loaded` | The Core receipt owns 16 files whose version and hashes match canonical Core sources. |
+| `instruction-loaded` | The Core receipt owns 17 files whose version and hashes match canonical Core sources. |
 | `skill-invokable` | The namespaced command runs, or reports `host-limited` with a healthy installed-file fallback. |
 | `project` | `/alex-act-core bootstrap-project` preserves local files and reports settings/scaffold status. |
 
@@ -203,7 +203,7 @@ commands remain the fallback when a generic skill call is unavailable.
 
 - [ ] Core is installed from `alex-mall` at the published version.
 - [ ] Selected specialization plugins are installed and enabled.
-- [ ] The 16-file Core-owned instruction activation is verified or explicitly
+- [ ] The 17-file Core-owned instruction activation is verified or explicitly
   declined.
 - [ ] If project bootstrap is selected, the current workspace preserves its settings and scaffold status.
 - [ ] Repeated project work is kept local through a reviewed project skill or script; cross-platform work remains optional.
